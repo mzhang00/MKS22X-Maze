@@ -69,17 +69,20 @@ public class Maze{
 
     */
     public int solve(){
-
-            //find the location of the S.
-
-
-            //erase the S
-
-
-            //and start solving at the location of the s.
-
-            return solve(0,0);
-
+      int Sx = 0;
+      int Sy = 0;
+      for (int i = 0; i < maze.length; i++){
+        for (int c = 0; c < maze[0].length; c++){
+          if (maze[i][c] == 'S'){
+            Sx = i;
+            Sy = c;
+            c = maze[0].length;
+            i = maze.length;
+          }
+        }
+      }
+      maze[Sx][Sy] = '@';
+      return solve(Sx,Sy);
     }
 
     /*
