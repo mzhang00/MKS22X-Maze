@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+
 public class Maze{
 
     private char[][]maze;
@@ -15,46 +16,33 @@ public class Maze{
       while(inf.hasNextLine()){
         String line = inf.nextLine();
         cols = line.length();
+        columns.add(line);
         rows++;
       }
-      String[][] maze = new String[rows][cols];
+      maze = new char[rows][cols];
       for (int r = 0; r < rows; r++){
         for (int c = 0; c < cols; c++){
-          //maze[r][c] =
-          System.out.println(maze[r][c]);
-        }
-      }
-      int SCount = 0;
-      int ECount = 0;
-      for (int r = 0; r < rows; r++){
-        for (int c = 0; c < cols; c++){
-          //if ()
+          maze[r][c] = columns.get(r).charAt(c);
         }
       }
     }
 
     private void wait(int millis){
-         try {
-             Thread.sleep(millis);
-         }
-         catch (InterruptedException e) {
-         }
+      try {
+        Thread.sleep(millis);
+      }
+      catch (InterruptedException e) {
+      }
      }
 
 
     public void setAnimate(boolean b){
-
-        animate = b;
-
+      animate = b;
     }
 
 
     public void clearTerminal(){
-
-        //erase terminal, go to top left of screen.
-
-        System.out.println("\033[2J\033[1;1H");
-
+      System.out.println("\033[2J\033[1;1H");
     }
 
 
@@ -113,5 +101,19 @@ public class Maze{
         return -1; //so it compiles
     }
 
-
+    public String toString(){
+      String finalstr = "";
+      for (int i = 0; i < maze.length; i++){
+        for (int c = 0; c < maze[i].length; c++){
+          finalstr = finalstr + maze[i][c];
+            if (c != maze[i].length - 1){
+              finalstr += " ";
+            }
+          }
+          if (i != maze.length - 1){
+            finalstr += "\n";
+          }
+      }
+      return finalstr;
+    }
 }
