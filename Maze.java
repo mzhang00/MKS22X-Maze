@@ -25,6 +25,21 @@ public class Maze{
           maze[r][c] = columns.get(r).charAt(c);
         }
       }
+      int Scount = 0;
+      int Ecount = 0;
+      for (int a = 0; a < maze.length; a++){
+        for (int b = 0; b < maze[0].length; b++){
+          if (maze[a][b] == 'S'){
+            Scount++;
+          }
+          if (maze[a][b] == 'E'){
+            Ecount++;
+          }
+        }
+      }
+      if (Scount != 1 || Ecount != 1){
+        throw new IllegalStateException();
+      }
     }
 
     private void wait(int millis){
