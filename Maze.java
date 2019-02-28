@@ -82,7 +82,7 @@ public class Maze{
         }
       }
       maze[Sx][Sy] = '@';
-      return solve(Sx,Sy);
+      return solve(Sx, Sy, 0, Sx, Sy);
     }
 
     /*
@@ -102,21 +102,24 @@ public class Maze{
 
         All visited spots that are part of the solution are changed to '@'
     */
-    private int solve(int row, int col){ //you can add more parameters since this is private
+    private int solve(int row, int col, int moveNumber, int lastRow, int lastCol){
+      if(animate){
+        clearTerminal();
+        System.out.println(this);
+        wait(20);
+      }
+      return moveNumber;
+    }
 
-
-        //automatic animation! You are welcome.
-        if(animate){
-
-            clearTerminal();
-            System.out.println(this);
-
-            wait(20);
-        }
-
-        //COMPLETE SOLVE
-
-        return -1; //so it compiles
+    //row and col are the NEW row and NEW col
+    private boolean goTo(int row, int col, int moveNumber){
+      if (maze[row][col] == '#'){
+        return false;
+      }else{
+        maze[row][col] = '@';
+        moveNumber++;
+        return true;
+      }
     }
 
     public String toString(){
