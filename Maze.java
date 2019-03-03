@@ -137,30 +137,26 @@ public class Maze{
       for (int i = 0; i <= 3; i++){
         if (maze[row + xmoves[i]][col + ymoves[i]] == 'E'){
           throw new IndexOutOfBoundsException();
-          //return 0;
         }
         if (goTo(row + xmoves[i], col + ymoves[i])){
           solve(row + xmoves[i], col + ymoves[i], row, col);
-        }        
+        }else{
+          if (i == 3){
+            maze[row][col] = '.';
+          }
+        }
       }
-      //goBack(lastRow, lastCol, moveNumber);
       return 0;
     }
 
     //row and col are the NEW row and NEW col
     private boolean goTo(int row, int col){
-      if (maze[row][col] == '#' || maze[row][col] == '@'){
+      if (maze[row][col] == '#' || maze[row][col] == '@' || maze[row][col] == '.'){
         return false;
       }else{
         maze[row][col] = '@';
         return true;
       }
-    }
-
-    private boolean goBack(int row, int col, int moveNumber){
-      maze[row][col] = '@';
-      moveNumber--;
-      return true;
     }
 
     public String toString(){
