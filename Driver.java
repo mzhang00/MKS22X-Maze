@@ -5,11 +5,17 @@ public class Driver{
       String filename = "data1.dat";
       try{
         Maze f;
-        f = new Maze(filename);//true animates the maze.
-
-        f.setAnimate(true);
-        f.solve();
+        f = new Maze(filename);
+        
+        /*f.setAnimate(true);
+        f.solve();*/
+        
+        f.setAnimate(false);
+        System.out.println(f.solve());
+        
+        System.out.println("-------------------------------");
         System.out.println(f);
+        
       }catch(FileNotFoundException e){
         System.out.println("Invalid filename: "+filename);
       }

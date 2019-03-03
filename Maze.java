@@ -3,8 +3,10 @@ import java.io.*;
 
 public class Maze{
 
-    private char[][]maze;
+    private char[][] maze;
     private boolean animate;
+    private int[] xmoves = {0, 1, 0, -1};
+    private int[] ymoves = {-1, 0, 1, 0};
 
     public Maze(String filename) throws FileNotFoundException{
       animate = false;
@@ -82,7 +84,20 @@ public class Maze{
         }
       }
       maze[Sx][Sy] = '@';
-      return solve(Sx, Sy, 0, Sx, Sy);
+      try{
+        solve(Sx, Sy, Sx, Sy);
+      }
+      catch(IndexOutOfBoundsException e){
+      }
+      int result = 0;
+      for (int r = 0; r < maze.length; r++){
+        for (int c = 0; c < maze[0].length; c++){
+          if (maze[r][c] == '@'){
+            result++;
+          }
+        }
+      }
+      return result;
     }
 
     /*
@@ -102,24 +117,50 @@ public class Maze{
 
         All visited spots that are part of the solution are changed to '@'
     */
-    private int solve(int row, int col, int moveNumber, int lastRow, int lastCol){
+    private int solve(int row, int col, int lastRow, int lastCol){
+      if(animate){
+        clearTerminal();
+        char save = maze[row][col];
+        maze[row][col] = '\u2588';
+        System.out.println(this);
+        maze[row][col] = save;
+        wait(500);
+    }/*
       if(animate){
         clearTerminal();
         System.out.println(this);
-        wait(20);
+        wait(1000);
+      }*/
+      if (maze[row][col] == 'E'){
+        return 0;
       }
-      return moveNumber;
+      for (int i = 0; i <= 3; i++){
+        if (maze[row + xmoves[i]][col + ymoves[i]] == 'E'){
+          throw new IndexOutOfBoundsException();
+          //return 0;
+        }
+        if (goTo(row + xmoves[i], col + ymoves[i])){
+          solve(row + xmoves[i], col + ymoves[i], row, col);
+        }        
+      }
+      //goBack(lastRow, lastCol, moveNumber);
+      return 0;
     }
 
     //row and col are the NEW row and NEW col
-    private boolean goTo(int row, int col, int moveNumber){
-      if (maze[row][col] == '#'){
+    private boolean goTo(int row, int col){
+      if (maze[row][col] == '#' || maze[row][col] == '@'){
         return false;
       }else{
         maze[row][col] = '@';
-        moveNumber++;
         return true;
       }
+    }
+
+    private boolean goBack(int row, int col, int moveNumber){
+      maze[row][col] = '@';
+      moveNumber--;
+      return true;
     }
 
     public String toString(){
