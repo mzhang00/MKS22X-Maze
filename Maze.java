@@ -50,17 +50,13 @@ public class Maze{
     }
   }
 
-
   public void setAnimate(boolean b){
     animate = b;
   }
 
-
   public void clearTerminal(){
     System.out.println("\033[2J\033[1;1H");
   }
-
-
 
   /*Wrapper Solve Function returns the helper function
 
@@ -68,6 +64,7 @@ public class Maze{
     Since the constructor exits when the file is not found or is missing an E or S, we can assume it exists.
 
   */
+
   public int solve(){
     int Sx = 0;
     int Sy = 0;
@@ -125,7 +122,7 @@ public class Maze{
 
       All visited spots that are part of the solution are changed to '@'
   */
-
+  
   private int solve(int row, int col){
     /*if(animate){
       clearTerminal();
