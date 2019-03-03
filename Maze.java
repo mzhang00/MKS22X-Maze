@@ -85,11 +85,11 @@ public class Maze{
       }
       maze[Sx][Sy] = '@';
       try{
-        solve(Sx, Sy, Sx, Sy);
+        solve(Sx, Sy);
       }
       catch(IndexOutOfBoundsException e){
       }
-      int result = 0;
+      int result = -1;
       for (int r = 0; r < maze.length; r++){
         for (int c = 0; c < maze[0].length; c++){
           if (maze[r][c] == '@'){
@@ -97,7 +97,18 @@ public class Maze{
           }
         }
       }
-      return result;
+      if (result < 0){
+        result--;
+        for (int r = 0; r < maze.length; r++){
+          for (int c = 0; c < maze[0].length; c++){
+            if (maze[r][c] != '#' && maze[r][c] != 'E'){
+              maze[r][c] = ' ';
+            }
+          }
+        }
+        maze[Sx][Sy] = 'S';
+      }
+      return result + 1;
     }
 
     /*
@@ -117,20 +128,20 @@ public class Maze{
 
         All visited spots that are part of the solution are changed to '@'
     */
-    private int solve(int row, int col, int lastRow, int lastCol){
-      if(animate){
+    private int solve(int row, int col){
+      /*if(animate){
         clearTerminal();
         char save = maze[row][col];
         maze[row][col] = '\u2588';
         System.out.println(this);
         maze[row][col] = save;
-        wait(500);
-    }/*
+        wait(200);
+    }*/
       if(animate){
         clearTerminal();
         System.out.println(this);
-        wait(1000);
-      }*/
+        wait(10);
+      }
       if (maze[row][col] == 'E'){
         return 0;
       }
@@ -139,11 +150,10 @@ public class Maze{
           throw new IndexOutOfBoundsException();
         }
         if (goTo(row + xmoves[i], col + ymoves[i])){
-          solve(row + xmoves[i], col + ymoves[i], row, col);
-        }else{
-          if (i == 3){
-            maze[row][col] = '.';
-          }
+          solve(row + xmoves[i], col + ymoves[i]);
+        }
+        if (i == 3){
+          maze[row][col] = '.';
         }
       }
       return 0;
